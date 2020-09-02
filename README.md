@@ -36,7 +36,6 @@ $ npm install
 
 ## data
 
-![Alt text](./controllers_brief.svg)
 <img src="./data.svg">
 
 ## Running the app
