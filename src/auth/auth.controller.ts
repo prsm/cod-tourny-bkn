@@ -1,10 +1,31 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { AuthService } from './auth.service';
+import { DiscordUserDto } from './dto/discord-user.dto';
+import { IDiscordUser } from './interfaces/discord-user.interface';
 
 @Controller('auth')
 export class AuthController {
-  @Get()
-  async test(): Promise<string> {
-    console.log('gg', process.env.POSTGRES_URL);
-    return process.env.POSTGRES_URL;
+  constructor(private authService: AuthService) {}
+
+  // @Post('/signup')
+  // async signUp(
+  //   @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
+  // ): Promise<void> {
+  //   return this.authService.signUp(authCredentialsDto);
+  // }
+
+  @Get('/discord')
+  @UseGuards(AuthGuard('discord'))
+  async discordAuth(): Promise<void> {
+    return;
+  }
+
+  @Get('/discord/redirect')
+  @UseGuards(AuthGuard('discord'))
+  async discordAuthRedirect(
+    @Req() discordUserDto: DiscordUserDto,
+  ): Promise<IDiscordUser> {
+    return this.authService.discordLogin(discordUserDto);
   }
 }
