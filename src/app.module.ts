@@ -15,7 +15,7 @@ import { LeagueModule } from './league/league.module';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
-        url: configService.get('POSTGRES_URL'),
+        url: configService.get('DATABASE_URL'),
         entities: [__dirname + '/**/*.entity.{js,ts}'],
         synchronize: true,
       }),
