@@ -5,7 +5,4 @@ export interface IDiscordUser {
   discriminator: string;
   verified: boolean;
   profilePictureUrl: string;
-  accessToken: string;
-  refreshToken: string;
-  fetchedAt: Date;
 }

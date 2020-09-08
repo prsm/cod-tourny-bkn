@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-discord';
 import {} from 'passport-jwt';
@@ -8,11 +9,11 @@ import { IDiscordUser } from './interfaces/discord-user.interface';
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
-  constructor() {
+  constructor(private configService: ConfigService) {
     super({
-      clientID: '751144644229726268',
-      clientSecret: '3VuJQoIj6KRzYQSWgfpQeeTgk7X7d4Ew',
-      callbackURL: 'http://localhost:3000/auth/discord/redirect',
+      clientID: configService.get('DISCORD_CLIENT_ID'),
+      clientSecret: configService.get('DISCORD_CLIENT_SECRET'),
+      callbackURL: configService.get('DISCORD_CALLBACK_URL'),
       scope: ['email', 'identify'],
     });
   }
@@ -30,9 +31,6 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
       discriminator: profile.discriminator,
       verified: profile.verified,
       profilePictureUrl: `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}`,
-      accessToken,
-      refreshToken,
-      fetchedAt: profile.fetchedAt,
     };
     cb(undefined, user);
   }

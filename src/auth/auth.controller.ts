@@ -2,7 +2,6 @@ import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { DiscordUserDto } from './dto/discord-user.dto';
-import { IDiscordUser } from './interfaces/discord-user.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -25,7 +24,7 @@ export class AuthController {
   @UseGuards(AuthGuard('discord'))
   async discordAuthRedirect(
     @Req() discordUserDto: DiscordUserDto,
-  ): Promise<IDiscordUser> {
+  ): Promise<{ accessToken: string }> {
     return this.authService.discordLogin(discordUserDto);
   }
 }

@@ -47,6 +47,7 @@ export class PlayerRepository extends Repository<Player> {
       verified,
       profilePictureUrl,
     } = discordUserDto.user;
+    console.log('PlayerRepository -> discordUserDto.user', discordUserDto.user);
 
     const user = await this.findOne({ discordId: discordId });
 
