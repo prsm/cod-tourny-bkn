@@ -1,18 +1,61 @@
-import { Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { GetUser } from 'src/auth/get-user.decorator';
-import { Player } from 'src/auth/player.entity';
+import { CreateLeagueDto } from './dto/create-league.dto';
+import { GetLeagueFilterDto } from './dto/get-league-filter.dto';
+import { PatchLeagueDto } from './dto/patch-league.dto';
+import { League } from './league.entity';
+import { LeagueService } from './league.service';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('leagues')
 export class LeagueController {
-  @UseGuards(AuthGuard('jwt'))
+  constructor(private leagueService: LeagueService) {}
+
   @Get()
-  async getAllLeagues(@GetUser() user: Player): Promise<void> {
-    return;
+  async getLeagues(
+    @Query(ValidationPipe) filterDto: GetLeagueFilterDto,
+  ): Promise<League[]> {
+    return this.leagueService.getLeagues(filterDto);
+  }
+
+  @Get('/:id')
+  async getLeagueById(
+    @Param('id', ParseIntPipe) leagueId: number,
+  ): Promise<League> {
+    return this.leagueService.getLeagueById(leagueId);
   }
 
   @Post()
-  async createNewLeague(): Promise<void> {
-    return;
+  async createNewLeague(
+    @Body(ValidationPipe) createLeagueDto: CreateLeagueDto,
+  ): Promise<League> {
+    return this.leagueService.createNewLeague(createLeagueDto);
+  }
+
+  @Patch('/:id')
+  async patchLeague(
+    @Param('id', ParseIntPipe) leagueId: number,
+    @Body(ValidationPipe) patchDto: PatchLeagueDto,
+  ): Promise<League> {
+    return this.leagueService.patchLeague(leagueId, patchDto);
+  }
+
+  @Delete('/:id')
+  async deleteLeague(
+    @Param('id', ParseIntPipe) leagueId: number,
+  ): Promise<void> {
+    return this.leagueService.deleteLeague(leagueId);
   }
 }
