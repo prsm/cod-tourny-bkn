@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
 import { AuthGuard, PassportModule } from '@nestjs/passport';
 import { Player } from './player.entity';
 import { PlayerService } from './player.service';
@@ -13,7 +13,16 @@ export class PlayerController {
 
   @Get()
   async getAllPlayers(): Promise<Player[]> {
-    console.log('ayy');
     return this.playerService.getAllPlayers();
+  }
+
+  @Get('/:id')
+  async getPlayer(@Param('id') discordId: string): Promise<Player> {
+    return this.playerService.getPlayer(discordId);
+  }
+
+  @Delete('/:id')
+  async deletePlayer(@Param('id') discordId: string): Promise<void> {
+    return this.playerService.deletePlayer(discordId);
   }
 }

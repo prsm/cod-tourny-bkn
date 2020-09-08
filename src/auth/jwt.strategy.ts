@@ -22,10 +22,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: IDiscordUser): Promise<Player> {
     const { discordId } = payload;
-    console.log(
-      'JwtStrategy -> classJwtStrategyextendsPassportStrategy -> discordId',
-      discordId,
-    );
     const player = await this.playerRepository.findOne({ discordId });
 
     if (!player) {

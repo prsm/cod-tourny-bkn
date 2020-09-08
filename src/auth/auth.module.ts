@@ -31,6 +31,6 @@ import { PlayerService } from './player.service';
     PlayerService,
     PassportModule,
   ],
-  exports: [PassportModule],
+  exports: [PassportModule, JwtStrategy],
 })
 export class AuthModule {}
