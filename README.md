@@ -34,9 +34,9 @@
 $ npm install
 ```
 
-## data
+## ORM
 
-<img src="./data.svg">
+<img src="./PR1SM_League_ORM.svg">
 
 ## Running the app
 
