@@ -3,9 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-discord';
 import {} from 'passport-jwt';
-import { IDiscordCallback } from './interfaces/discord-callback.interface';
-import { IDiscordProfile } from './interfaces/discord-profile.interface';
-import { IDiscordUser } from './interfaces/discord-user.interface';
+import { IDiscordCallback } from '../interfaces/discord-callback.interface';
+import { IDiscordProfile } from '../interfaces/discord-profile.interface';
+import { IDiscordUser } from '../interfaces/discord-user.interface';
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
@@ -24,13 +24,17 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
     profile: IDiscordProfile,
     cb: IDiscordCallback,
   ): Promise<void> {
+    let profilePictureUrl: string = undefined;
+    if (profile.avatar) {
+      profilePictureUrl = `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}`;
+    }
     const user: IDiscordUser = {
       discordId: profile.id,
       username: profile.username,
       email: profile.email,
       discriminator: profile.discriminator,
       verified: profile.verified,
-      profilePictureUrl: `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}`,
+      profilePictureUrl,
     };
     cb(undefined, user);
   }

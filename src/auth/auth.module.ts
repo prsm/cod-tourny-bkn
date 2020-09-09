@@ -5,11 +5,11 @@ import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { DiscordStrategy } from './discord.strategy';
-import { JwtStrategy } from './jwt.strategy';
-import { PlayerController } from './player.controller';
-import { PlayerRepository } from './player.repository';
-import { PlayerService } from './player.service';
+import { PlayerController } from './player/player.controller';
+import { PlayerRepository } from './player/player.repository';
+import { PlayerService } from './player/player.service';
+import { DiscordStrategy } from './strategy/discord.strategy';
+import { JwtStrategy } from './strategy/jwt.strategy';
 
 @Module({
   imports: [

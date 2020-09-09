@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DiscordUserDto } from './dto/discord-user.dto';
-import { PlayerRepository } from './player.repository';
+import { PlayerRepository } from './player/player.repository';
 
 @Injectable()
 export class AuthService {
