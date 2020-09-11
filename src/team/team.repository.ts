@@ -65,11 +65,19 @@ export class TeamRepository extends Repository<Team> {
   ): Promise<void> {
     const { joinCode } = joinDto;
     const team = await this.findOne(teamId);
+
+    if (!team) {
+      throw new NotFoundException();
+    }
     const temp = await this.getJoinCode(teamId);
     team.joinCode = temp.joinCode;
 
     if (!team) {
       throw new NotFoundException();
+    }
+
+    if (team.dispanded) {
+      throw new ConflictException('Cannot join a dispanded team');
     }
 
     if (joinCode !== team.joinCode) {
@@ -100,6 +108,9 @@ export class TeamRepository extends Repository<Team> {
 
   async leaveTeam(teamId: number, user: Player): Promise<void> {
     const team = await this.findOne(teamId);
+    if (!team) {
+      throw new NotFoundException();
+    }
     const playerInTeam = team.players.find(
       player => player.discordId === user.discordId,
     );
