@@ -3,9 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-discord';
 import {} from 'passport-jwt';
-import { IDiscordCallback } from '../interfaces/discord-callback.interface';
-import { IDiscordProfile } from '../interfaces/discord-profile.interface';
-import { IDiscordUser } from '../interfaces/discord-user.interface';
+import { IDiscordCallback } from '../../player/interfaces/discord-callback.interface';
+import { IDiscordProfile } from '../../player/interfaces/discord-profile.interface';
+import { IDiscordUser } from '../../player/interfaces/discord-user.interface';
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {

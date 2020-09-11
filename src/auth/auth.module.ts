@@ -3,17 +3,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { PlayerController } from './player/player.controller';
-import { PlayerRepository } from './player/player.repository';
-import { PlayerService } from './player/player.service';
+import { PlayerRepository } from 'src/player/player.repository';
 import { DiscordStrategy } from './strategy/discord.strategy';
 import { JwtStrategy } from './strategy/jwt.strategy';
 
 @Module({
   imports: [
+    ConfigModule,
     TypeOrmModule.forFeature([PlayerRepository]),
+    PassportModule.register({}),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -23,14 +21,8 @@ import { JwtStrategy } from './strategy/jwt.strategy';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AuthController, PlayerController],
-  providers: [
-    JwtStrategy,
-    DiscordStrategy,
-    AuthService,
-    PlayerService,
-    PassportModule,
-  ],
-  exports: [PassportModule, JwtStrategy],
+  controllers: [],
+  providers: [JwtStrategy, DiscordStrategy, PassportModule],
+  exports: [PassportModule, JwtModule, JwtStrategy, DiscordStrategy],
 })
 export class AuthModule {}

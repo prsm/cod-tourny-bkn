@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { LeagueModule } from './league/league.module';
+import { TeamModule } from './team/team.module';
+import { PlayerModule } from './player/player.module';
 
 @Module({
   imports: [
@@ -16,12 +18,22 @@ import { LeagueModule } from './league/league.module';
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
         url: configService.get('DATABASE_URL'),
-        entities: [__dirname + '/**/*.entity.{js,ts}'],
-        synchronize: true,
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        synchronize: false,
+        migrationsRun: true,
+        logging: true,
+        logger: 'file',
+        retryAttempts: 10,
+        migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+        cli: {
+          migrationsDir: 'src/migrations',
+        },
       }),
     }),
     AuthModule,
     LeagueModule,
+    TeamModule,
+    PlayerModule,
   ],
   controllers: [],
   providers: [],

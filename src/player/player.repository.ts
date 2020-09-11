@@ -1,6 +1,6 @@
 import { InternalServerErrorException } from '@nestjs/common';
-import { DiscordUserDto } from 'src/auth/dto/discord-user.dto';
-import { IDiscordUser } from 'src/auth/interfaces/discord-user.interface';
+import { DiscordUserDto } from 'src/player/dto/discord-user.dto';
+import { IDiscordUser } from 'src/player/interfaces/discord-user.interface';
 import { EntityRepository, Repository } from 'typeorm';
 import { Player } from './player.entity';
 
@@ -16,9 +16,13 @@ export class PlayerRepository extends Repository<Player> {
       profilePictureUrl,
     } = discordUserDto.user;
 
-    const user = await this.findOne({ discordId: discordId });
+    const user = await this.findOne(
+      { discordId: discordId },
+      { relations: ['teams'] },
+    );
 
     if (user) {
+      console.log(user.teams);
       user.username = username;
       user.email = email;
       user.discriminator = discriminator;
@@ -36,6 +40,7 @@ export class PlayerRepository extends Repository<Player> {
     player.email = email;
     player.discriminator = discriminator;
     player.verified = verified;
+    player.teams = [];
     player.profilePictureUrl = profilePictureUrl;
 
     try {

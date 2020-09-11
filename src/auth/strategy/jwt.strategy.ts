@@ -3,9 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { Player } from 'src/auth/player/player.entity';
-import { IDiscordUser } from '../interfaces/discord-user.interface';
-import { PlayerRepository } from '../player/player.repository';
+import { Player } from 'src/player/player.entity';
+import { PlayerRepository } from 'src/player/player.repository';
+import { IDiscordUser } from '../../player/interfaces/discord-user.interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
