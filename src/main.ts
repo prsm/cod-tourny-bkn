@@ -7,12 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.use(helmet());
-  app.enableCors({
-    origin: 'https://league.pr1sm.gg/',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    preflightContinue: true,
-    optionsSuccessStatus: 200,
-  });
+  app.enableCors();
 
   const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT', 3000);
