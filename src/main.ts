@@ -8,8 +8,8 @@ async function bootstrap() {
 
   app.use(helmet());
   app.enableCors({
-    origin: 'https://league.pr1sm.gg',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    origin: 'https://league.pr1sm.gg/auth/discord',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     preflightContinue: true,
     optionsSuccessStatus: 200,
   });
