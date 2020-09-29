@@ -4,7 +4,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PlayerRepository } from 'src/player/player.repository';
-import { DiscordStrategy } from './strategy/discord.strategy';
 import { JwtStrategy } from './strategy/jwt.strategy';
 
 @Module({
@@ -22,7 +21,7 @@ import { JwtStrategy } from './strategy/jwt.strategy';
     }),
   ],
   controllers: [],
-  providers: [JwtStrategy, DiscordStrategy, PassportModule],
-  exports: [PassportModule, JwtModule, JwtStrategy, DiscordStrategy],
+  providers: [JwtStrategy, PassportModule],
+  exports: [PassportModule, JwtModule, JwtStrategy],
 })
 export class AuthModule {}

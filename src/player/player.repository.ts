@@ -1,12 +1,11 @@
 import { InternalServerErrorException } from '@nestjs/common';
-import { DiscordUserDto } from 'src/player/dto/discord-user.dto';
 import { IDiscordUser } from 'src/player/interfaces/discord-user.interface';
 import { EntityRepository, Repository } from 'typeorm';
 import { Player } from './player.entity';
 
 @EntityRepository(Player)
 export class PlayerRepository extends Repository<Player> {
-  async discordLogin(discordUserDto: DiscordUserDto): Promise<IDiscordUser> {
+  async discordLogin(userProfile: IDiscordUser): Promise<IDiscordUser> {
     const {
       discordId,
       username,
@@ -14,7 +13,7 @@ export class PlayerRepository extends Repository<Player> {
       discriminator,
       verified,
       profilePictureUrl,
-    } = discordUserDto.user;
+    } = userProfile;
 
     const user = await this.findOne(
       { discordId: discordId },
@@ -44,8 +43,7 @@ export class PlayerRepository extends Repository<Player> {
     player.profilePictureUrl = profilePictureUrl;
 
     try {
-      player.save();
-      return discordUserDto.user;
+      return player.save();
     } catch (error) {
       throw new InternalServerErrorException(
         `Contact quest1onmark#1337 with the following message: DiscordLogin::PSQL::${error.code}`,

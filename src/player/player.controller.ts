@@ -1,6 +1,5 @@
-import { Controller, Delete, Get, Param, Req, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
 import { AuthGuard, PassportModule } from '@nestjs/passport';
-import { DiscordUserDto } from './dto/discord-user.dto';
 import { Player } from './player.entity';
 import { PlayerService } from './player.service';
 
@@ -10,20 +9,6 @@ export class PlayerController {
     private playerService: PlayerService,
     private passportModule: PassportModule,
   ) {}
-
-  @Get('/auth/discord')
-  @UseGuards(AuthGuard('discord'))
-  async discordAuth(): Promise<void> {
-    return;
-  }
-
-  @Get('/auth/discord/redirect')
-  @UseGuards(AuthGuard('discord'))
-  async discordAuthRedirect(
-    @Req() discordUserDto: DiscordUserDto,
-  ): Promise<{ accessToken: string }> {
-    return this.playerService.discordLogin(discordUserDto);
-  }
 
   @Get('/players')
   @UseGuards(AuthGuard('jwt'))

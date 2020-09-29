@@ -6,11 +6,8 @@ export interface IDiscordProfile {
   public_flags: number;
   flags: number;
   email: string;
-  verified: true;
+  verified: boolean;
   locale: string;
   mfa_enabled: boolean;
   premium_type: number;
-  provider: string;
-  accessToken: string;
-  fetchedAt: Date;
 }

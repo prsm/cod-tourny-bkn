@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Player } from 'src/player/player.entity';
 import { PlayerRepository } from 'src/player/player.repository';
-import { IDiscordUser } from '../../player/interfaces/discord-user.interface';
+import { IJwt } from '../jwt.interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -20,7 +20,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: IDiscordUser): Promise<Player> {
+  async validate(payload: IJwt): Promise<Player> {
     const { discordId } = payload;
     const player = await this.playerRepository.findOne({ discordId });
 
