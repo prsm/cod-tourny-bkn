@@ -30,7 +30,6 @@ export class TeamRepository extends Repository<Team> {
     try {
       return team.save();
     } catch (error) {
-      console.log('TeamRepository -> error', error);
       if (error.code == 23505) {
         throw new ConflictException('Team with the same name already exists');
       } else {

@@ -21,7 +21,6 @@ export class PlayerRepository extends Repository<Player> {
     );
 
     if (user) {
-      console.log(user.teams);
       user.username = username;
       user.email = email;
       user.discriminator = discriminator;

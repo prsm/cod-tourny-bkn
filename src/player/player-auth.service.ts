@@ -34,7 +34,11 @@ export class PlayerAuthService {
 
     const user = await this.playerRepository.discordLogin(userProfile);
 
-    const rawToken: IJwt = { discordId: '123', username: 'quest1onmark' };
+    const rawToken: IJwt = {
+      discordId: user.discordId,
+      username: user.username,
+    };
+
     const accessToken = await this.jwtService.signAsync(rawToken);
     return { accessToken };
   }
