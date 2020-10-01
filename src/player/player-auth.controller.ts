@@ -29,7 +29,7 @@ export class PlayerAuthController {
       clientId,
     )}&redirect_uri=${encodeURI(
       redirectUrl,
-    )}&response_type=code&scope=identify%20email%20guilds.join`;
+    )}&response_type=code&scope=identify%20email`;
 
     return { url };
   }

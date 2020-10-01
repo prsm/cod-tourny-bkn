@@ -30,7 +30,7 @@ export class PlayerAuthService {
       throw new UnauthorizedException('Discord account not verified');
     }
 
-    await this.addUserToGuild(userProfile.discordId, token.access_token);
+    // await this.addUserToGuild(userProfile.discordId, token.access_token);
 
     const user = await this.playerRepository.discordLogin(userProfile);
 
@@ -43,21 +43,21 @@ export class PlayerAuthService {
     return { accessToken };
   }
 
-  private async addUserToGuild(userId: string, accessToken: string) {
-    await fetch(
-      `https://discord.com/api/guilds/274249720736514048/members/${userId}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bot ${this.configService.get('DISCORD_BOT_TOKEN')}`,
-        },
-        body: JSON.stringify({
-          access_token: accessToken,
-        }),
-      },
-    );
-  }
+  // private async addUserToGuild(userId: string, accessToken: string) {
+  //   await fetch(
+  //     `https://discord.com/api/guilds/274249720736514048/members/${userId}`,
+  //     {
+  //       method: 'PUT',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: `Bot ${this.configService.get('DISCORD_BOT_TOKEN')}`,
+  //       },
+  //       body: JSON.stringify({
+  //         access_token: accessToken,
+  //       }),
+  //     },
+  //   );
+  // }
 
   private async fetchDiscordUserData(tokenType: string, accessToken: string) {
     const answer = await fetch('https://discord.com/api/users/@me', {
